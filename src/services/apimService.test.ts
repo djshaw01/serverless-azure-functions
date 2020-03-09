@@ -23,6 +23,7 @@ import {
 import { AzureNamingService } from "./namingService";
 import { ApiManagementConfig, ApiIpFilterPolicy, ApiCheckHeaderPolicy } from "../models/apiManagement";
 import { ApimPolicyBuilder } from "./apimPolicyBuilder";
+import { constants } from "../shared/constants";
 
 describe("APIM Service", () => {
   let apimConfig: ApiManagementConfig;
@@ -601,8 +602,8 @@ describe("APIM Service", () => {
 
     it("uses GET as default HTTP method with inferred APIM operation", async () => {
       const functions = MockFactory.createTestSlsFunctionConfig();
-      functions.hello.events.forEach((event) => delete event["x-azure-settings"].methods);
-      functions.goodbye.events.forEach((event) => delete event["x-azure-settings"].methods);
+      functions.hello.events.forEach((event) => delete event[constants.xAzureSettings].methods);
+      functions.goodbye.events.forEach((event) => delete event[constants.xAzureSettings].methods);
       Object.assign(serverless.service, { functions });
 
       let apimResource: ApiManagementServiceResource = {

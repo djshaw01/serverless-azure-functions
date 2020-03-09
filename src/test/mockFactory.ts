@@ -334,15 +334,36 @@ export class MockFactory {
     };
   }
 
-  public static createTestFunctionMetadata(name: string, xAzureSettings: boolean = true): ServerlessAzureFunctionConfig {
+  public static createTestFunctionMetadata(name: string): ServerlessAzureFunctionConfig {
     return {
       "handler": `${name}.handler`,
-      "events": MockFactory.createTestFunctionEvents(xAzureSettings),
+      "events": MockFactory.createTestFunctionEvents(),
     }
   }
 
-  public static createTestFunctionEvents(xAzureSettings: boolean = true): ServerlessAzureFunctionBindingConfig[] {
-    return (xAzureSettings) ? [
+  public static createTestFunctionEvents(): ServerlessAzureFunctionBindingConfig[] {
+    return [
+      {
+        "http": true,
+        "authLevel": "anonymous"
+      },
+      {
+        "http": true,
+        "direction": "out",
+        "name": "res"
+      }
+    ]
+  }
+
+  public static createTestFunctionMetadataWithXAzureSettings(name: string, xAzureSettings: boolean = true): ServerlessAzureFunctionConfig {
+    return {
+      "handler": `${name}.handler`,
+      "events": MockFactory.createTestFunctionEventsWithXAzureSettings(),
+    }
+  }
+
+  public static createTestFunctionEventsWithXAzureSettings(): ServerlessAzureFunctionBindingConfig[] {
+    return [
       {
         "http": true,
         "x-azure-settings": {
@@ -355,16 +376,6 @@ export class MockFactory {
           "direction": "out",
           "name": "res"
         }
-      }
-    ] : [
-      {
-        "http": true,
-        "authLevel": "anonymous"
-      },
-      {
-        "http": true,
-        "direction": "out",
-        "name": "res"
       }
     ]
   }

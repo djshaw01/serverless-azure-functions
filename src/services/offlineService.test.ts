@@ -30,7 +30,7 @@ describe("Offline Service", () => {
     jest.resetAllMocks();
   });
 
-  it("builds required files for offline execution", async () => {
+  fit("builds required files for offline execution", async () => {
     const sls = MockFactory.createTestServerless();
     const service = createService(sls);
     const writeFileSpy = jest.spyOn(fs, "writeFileSync");
