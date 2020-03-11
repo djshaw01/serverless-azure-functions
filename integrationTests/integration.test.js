@@ -1,14 +1,30 @@
 const { spawn } = require("child_process")
 const { readdirSync } = require("fs");
+const { expectedLogStatements } = require("./expectedLogStatements")
 
-// const tests = getDirectories();
+const tests = getDirectories();
 
-tests = [ "http-node10-windows" ];
+//tests = [ "http-node10-windows" ];
 
-
+commands = [
+  ["npm", "link"],
+  ["sls", "deploy"],
+  ["sls", "invoke", "-f", "hello", "-d", '{"name": "Azure"}'],
+]
 
 for (const test of tests) {
-  integrationTest(test);
+  // integrationTest(test);
+  runCommands(test, commands);
+}
+
+function runCommands(testName, commands) {
+  if (commands.length === 0) {
+    return;
+  }
+  const currentCommand = commands[0];
+  console.log(`${testName} ${currentCommand.join(" ")}`)
+
+  runCommands(testName, commands.slice(1, commands.length));
 }
 
 function integrationTest(testName) {

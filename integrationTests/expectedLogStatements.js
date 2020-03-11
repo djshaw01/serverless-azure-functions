@@ -1,4 +1,4 @@
-export const expectedLogStatements = {
+const expectedLogStatements = {
   "http-node10-linux": {
     deploy: [
 
@@ -99,3 +99,5 @@ export const expectedLogStatements = {
     ]
   },
 }
+
+module.exports = { expectedLogStatements }
