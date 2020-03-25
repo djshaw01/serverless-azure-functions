@@ -42,14 +42,15 @@ export class FunctionAppService extends BaseService {
   public async getMasterKey(functionApp?: Site) {
     functionApp = functionApp || await this.get();
     const adminToken = await this.getAuthKey(functionApp);
-    // this.log("Admin token " + adminToken);
     const keyUrl = `https://${functionApp.defaultHostName}/admin/host/systemkeys/_master`;
+
     const response = await this.sendApiRequest("GET", keyUrl, {
       json: true,
       headers: {
         "Authorization": `Bearer ${adminToken}`
       }
     });
+
     return response.data.value;
   }
 
@@ -289,8 +290,7 @@ export class FunctionAppService extends BaseService {
    * Gets a short lived admin token used to retrieve function keys
    */
   private async getAuthKey(functionApp: Site) {
-    const adminTokenUrl = `https://${functionApp.name}.azurewebsites.net/admin/host/systemkeys/_master`
-    this.log("Admin token url... " + adminTokenUrl)
+    const adminTokenUrl = `${this.baseUrl}${functionApp.id}/functions/admin/token?api-version=2016-08-01`;
     const response = await this.sendApiRequest("GET", adminTokenUrl);
 
     return response.data.replace(/"/g, "");
